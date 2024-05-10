@@ -1,10 +1,39 @@
 using UnityEngine;
 
-[RequireComponent(typeof(SpriteRenderer))]
+/* [RequireComponent(typeof(SpriteRenderer))]
 [RequireComponent(typeof(Rigidbody2D))]
-[RequireComponent(typeof(BoxCollider2D))]
+[RequireComponent(typeof(BoxCollider2D))] */
 public class Invader : MonoBehaviour
 {
+
+    public Sprite[] animationSprites = new Sprite[0];
+    public float animationTime = 1f;
+    private SpriteRenderer spriteRenderer;
+    private int animationFrame;
+
+    private void Awake()
+    {
+        spriteRenderer = GetComponent<SpriteRenderer>();
+    }
+
+    private void Start()
+    {
+        InvokeRepeating(nameof(AnimateSprite), animationTime, animationTime);
+    }
+
+    private void AnimateSprite()
+    {
+        animationFrame++;
+
+        // Loop back to the start if the animation frame exceeds the length
+        if (animationFrame >= animationSprites.Length)
+        {
+            animationFrame = 0;
+        }
+
+        spriteRenderer.sprite = animationSprites[animationFrame];
+    }
+    /* 
     public Sprite[] animationSprites = new Sprite[0];
     public float animationTime = 1f;
     public int score = 10;
@@ -42,6 +71,6 @@ public class Invader : MonoBehaviour
         } else if (other.gameObject.layer == LayerMask.NameToLayer("Boundary")) {
             GameManager.Instance.OnBoundaryReached();
         }
-    }
+    } */
 
 }
