@@ -15,12 +15,14 @@ public class Invaders : MonoBehaviour
 
     private void CreateInvaderGrid()
     {
+    //This loop will be resposible to create/spawn enemies for the player to shoot
         for (int i = 0; i < rows; i++)
         {
             float width = 2f * (columns - 1);
             float height = 2f * (rows - 1);
-
+            // allowing us to center the enemies
             Vector2 centerOffset = new Vector2(-width * 0.5f, -height * 0.5f);
+            //allowing us to givethe row position of enemios here
             Vector3 rowPosition = new Vector3(centerOffset.x, (2f * i) + centerOffset.y, 0f);
 
             for (int j = 0; j < columns; j++)
