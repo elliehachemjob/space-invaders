@@ -5,6 +5,8 @@ public class Invaders : MonoBehaviour
     public Invader[] prefabs = new Invader[5];
     public int rows = 5;
     public int columns = 11;
+    private Vector3 direction = Vector3.right;
+    public AnimationCurve speed = new AnimationCurve();
 
 
     private void Awake()
@@ -35,6 +37,16 @@ public class Invaders : MonoBehaviour
                 position.x += 2f * j;
                 invader.transform.localPosition = position;
             }
+        }
+    }
+
+    private void Update()
+    {
+       
+        // Evaluate the speed of the invaders based on how many have been killed
+        transform.position += speed * Time.deltaTime * direction;
+
+       
         }
     }
 
