@@ -45,10 +45,41 @@ public class Invaders : MonoBehaviour
        
         // Evaluate the speed of the invaders based on how many have been killed
         transform.position += speed * Time.deltaTime * direction;
+        Vector3 leftEdge = Camera.main.ViewportToWorldPoint(Vector3.zero);
+        Vector3 rightEdge = Camera.main.ViewportToWorldPoint(Vector3.right);
+        foreach (Transform invader in transform)
+        {
+            // Skip any invaders that have been killed
+            if (!invader.gameObject.activeInHierarchy)
+            {
+                continue;
+            }
 
-       
+            // Check the left edge or right edge based on the current direction
+            if (direction == Vector3.right && invader.position.x >= (rightEdge.x - 1f))
+            {
+                AdvanceRow();
+                break;
+            }
+            else if (direction == Vector3.left && invader.position.x <= (leftEdge.x + 1f))
+            {
+                AdvanceRow();
+                break;
+            }
         }
     }
+
+    private void AdvanceRow()
+    {
+        // Flip the direction the invaders are moving
+        direction = new Vector3(-direction.x, 0f, 0f);
+
+        // Move the entire grid of invaders down a row
+        Vector3 position = transform.position;
+        position.y -= 1f;
+        transform.position = position;
+    }
+
 
     /*  [Header("Invaders")]
     public Invader[] prefabs = new Invader[5];
