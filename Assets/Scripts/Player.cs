@@ -1,10 +1,31 @@
 using UnityEngine;
+using UnityEngine.UIElements;
 
 [RequireComponent(typeof(Rigidbody2D))]
 [RequireComponent(typeof(BoxCollider2D))]
 public class Player : MonoBehaviour
 {
     public float speed = 5f;
+
+
+    private void Update()
+    {
+        if (Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.LeftArrow))
+        {
+            position.x -= speed * Time.deltaTime;
+        }
+        else if (Input.GetKey(KeyCode.D) || Input.GetKey(KeyCode.RightArrow))
+        {
+            position.x += speed * Time.deltaTime;
+        }
+        // there is not already an active laser
+        if (laser == null && (Input.GetKeyDown(KeyCode.Space) || Input.GetMouseButtonDown(0)))
+        {
+            laser = Instantiate(laserPrefab, transform.position, Quaternion.identity);
+        }
+    }
+
+    /*  public float speed = 5f;
     public Projectile laserPrefab;
 
     private Projectile laser;
@@ -43,5 +64,5 @@ public class Player : MonoBehaviour
             GameManager.Instance.OnPlayerKilled(this);
         }
     }
-
+    */
 }

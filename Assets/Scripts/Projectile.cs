@@ -4,6 +4,8 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Projectile : MonoBehaviour
 {
+    
+    /* 
     public Vector3 direction = Vector3.up;
     public float speed = 20f;
 
@@ -36,6 +38,6 @@ public class Projectile : MonoBehaviour
         if (bunker == null || bunker.CheckCollision(collider, transform.position)) {
             Destroy(gameObject);
         }
-    }
+    }*/
 
 }
