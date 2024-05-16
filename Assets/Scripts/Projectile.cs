@@ -4,7 +4,19 @@ using UnityEngine;
 [RequireComponent(typeof(BoxCollider2D))]
 public class Projectile : MonoBehaviour
 {
-    
+
+    public Vector3 direction = Vector3.up;
+    public float speed = 20f;
+
+    private void Update()
+    {
+        transform.position += speed * Time.deltaTime * direction;
+    }
+    private void OnTriggerStay2D(Collider2D other)
+    {
+        CheckCollision(other);
+    }
+
     /* 
     public Vector3 direction = Vector3.up;
     public float speed = 20f;
