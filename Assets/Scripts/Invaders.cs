@@ -80,6 +80,16 @@ public class Invaders : MonoBehaviour
         transform.position = position;
     }
 
+    public void ResetInvaders()
+    {
+        direction = Vector3.right;
+        transform.position = initialPosition;
+
+        foreach (Transform invader in transform)
+        {
+            invader.gameObject.SetActive(true);
+        }
+    }
 
     /*  [Header("Invaders")]
     public Invader[] prefabs = new Invader[5];
