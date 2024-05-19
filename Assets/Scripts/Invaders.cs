@@ -1,12 +1,26 @@
 using UnityEngine;
 
 public class Invaders : MonoBehaviour
+
+
 {
+
+    [Header("Grid")]
+    public int rows = 5;
+    public int columns = 11;
+
+    [Header("Missiles")]
+    public Projectile missilePrefab;
+    public float missileSpawnRate = 1f;
+
     public Invader[] prefabs = new Invader[5];
     public int rows = 5;
     public int columns = 11;
     private Vector3 direction = Vector3.right;
     public AnimationCurve speed = new AnimationCurve();
+    int totalCount = rows * columns;
+    int amountAlive = GetAliveCount();
+    int amountKilled = totalCount - amountAlive;
 
 
     private void Awake()
@@ -42,32 +56,45 @@ public class Invaders : MonoBehaviour
 
     private void Update()
     {
-       
-        // Evaluate the speed of the invaders based on how many have been killed
-        transform.position += speed * Time.deltaTime * direction;
-        Vector3 leftEdge = Camera.main.ViewportToWorldPoint(Vector3.zero);
-        Vector3 rightEdge = Camera.main.ViewportToWorldPoint(Vector3.right);
-        foreach (Transform invader in transform)
         {
-            // Skip any invaders that have been killed
-            if (!invader.gameObject.activeInHierarchy)
-            {
-                continue;
-            }
+            // Calculate the percentage of invaders killed
+            int totalCount = rows * columns;
+            int amountAlive = GetAliveCount();
+            int amountKilled = totalCount - amountAlive;
+            float percentKilled = (float)amountKilled / (float)totalCount;
 
-            // Check the left edge or right edge based on the current direction
-            if (direction == Vector3.right && invader.position.x >= (rightEdge.x - 1f))
+            // Evaluate the speed of the invaders based on how many have been killed
+            float speed = this.speed.Evaluate(percentKilled);
+            transform.position += speed * Time.deltaTime * direction;
+
+            // Transform the viewport to world coordinates so we can check when the
+            // invaders reach the edge of the screen
+            Vector3 leftEdge = Camera.main.ViewportToWorldPoint(Vector3.zero);
+            Vector3 rightEdge = Camera.main.ViewportToWorldPoint(Vector3.right);
+
+            // The invaders will advance to the next row after reaching the edge of
+            // the screen
+            foreach (Transform invader in transform)
             {
-                AdvanceRow();
-                break;
-            }
-            else if (direction == Vector3.left && invader.position.x <= (leftEdge.x + 1f))
-            {
-                AdvanceRow();
-                break;
+                // Skip any invaders that have been killed
+                if (!invader.gameObject.activeInHierarchy)
+                {
+                    continue;
+                }
+
+                // Check the left edge or right edge based on the current direction
+                if (direction == Vector3.right && invader.position.x >= (rightEdge.x - 1f))
+                {
+                    AdvanceRow();
+                    break;
+                }
+                else if (direction == Vector3.left && invader.position.x <= (leftEdge.x + 1f))
+                {
+                    AdvanceRow();
+                    break;
+                }
             }
         }
-    }
 
     private void AdvanceRow()
     {
@@ -90,6 +117,7 @@ public class Invaders : MonoBehaviour
             invader.gameObject.SetActive(true);
         }
     }
+
 
     /*  [Header("Invaders")]
     public Invader[] prefabs = new Invader[5];
