@@ -148,7 +148,22 @@ public class Invaders : MonoBehaviour
                     return;
                 }
 
-                
+                foreach (Transform invader in transform)
+                {
+                    // Any invaders that are killed cannot shoot missiles
+                    if (!invader.gameObject.activeInHierarchy)
+                    {
+                        continue;
+                    }
+
+                    // Random chance to spawn a missile based upon how many invaders are
+                    // alive (the more invaders alive the lower the chance)
+                    if (Random.value < (1f / amountAlive))
+                    {
+                        Instantiate(missilePrefab, invader.position, Quaternion.identity);
+                        break;
+                    }
+                }
             }
 
             /*  [Header("Invaders")]
