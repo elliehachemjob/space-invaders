@@ -43,7 +43,7 @@ public class Invader : MonoBehaviour
         } 
     } 
 
-    /* 
+    
     public Sprite[] animationSprites = new Sprite[0];
     public float animationTime = 1f;
     public int score = 10;
@@ -81,6 +81,6 @@ public class Invader : MonoBehaviour
         } else if (other.gameObject.layer == LayerMask.NameToLayer("Boundary")) {
             GameManager.Instance.OnBoundaryReached();
         }
-    } */
+    } 
 
 }
